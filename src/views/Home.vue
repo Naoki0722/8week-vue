@@ -1,18 +1,31 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <input type="text" v-model="text">
+    <button @click="send">送信</button>
+    <p>{{getData}}</p>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import axios from 'axios'
 export default {
-  name: 'Home',
-  components: {
-    HelloWorld
-  }
+  data() {
+    return {
+      text: "",
+      getData: ""
+    }
+  },
+  methods: {
+    send() {
+      axios
+        .post('http://localhost:8001/api/', {
+          text: this.text
+        })
+        .then((response) => {
+          this.getData = response.data.data
+          console.log(response.data.data)
+        })
+    }
+  },
 }
 </script>
